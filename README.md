@@ -439,6 +439,8 @@ Enable uptime checks and alerting policies (e.g., notify if CPU > 80% for 5 mins
 
 Integrate with Cloud Logging for deep log visibility.
 
+![image](https://github.com/user-attachments/assets/e625032d-cba3-4a66-9525-53d4c35eb2ba)
+
 - To install the Ops Agent later through the Observability (Monitoring) tab or manually via SSH, the user or service account performing the installation must have sufficient IAM roles/permissions on the VM.
 
 ✅ Required Permissions to Install Ops Agent
