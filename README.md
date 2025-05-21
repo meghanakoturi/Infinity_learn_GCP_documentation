@@ -447,7 +447,7 @@ Integrate with Cloud Logging for deep log visibility.
 
 🔒 Minimum IAM Role (Preferred)
 
-Role: roles/compute.osAdminLogin
+    Role: roles/compute.osAdminLogin
 
 Name: Compute OS Admin Login
 
@@ -455,24 +455,24 @@ Purpose: Allows SSH access with admin rights (required for agent installation)
 
 This role includes:
 
-compute.instances.get
+    compute.instances.get
 
-compute.instances.setMetadata
+    compute.instances.setMetadata
 
-compute.instances.osLogin
+    compute.instances.osLogin
 
-compute.instances.osLogin.admin
+    compute.instances.osLogin.admin
 
 ✅ Alternative Combination of Roles (if granular control is needed)
 If you prefer fine-grained control, assign the following roles:
 
-roles/compute.instanceAdmin.v1 – to manage VM instances
+    roles/compute.instanceAdmin.v1 – to manage VM instances
 
-roles/compute.osLoginAdmin – to allow sudo access
+    roles/compute.osLoginAdmin – to allow sudo access
 
-roles/logging.admin – for log writing
+    roles/logging.admin – for log writing
 
-roles/monitoring.admin – for monitoring configuration
+    roles/monitoring.admin – for monitoring configuration
 
 📌 Note:
 To install the agent via the Cloud Console (Observability tab), the underlying API calls require compute.instances.updateMetadata permission, which is included in the roles above.
@@ -482,9 +482,9 @@ If you are using OS Login, ensure the user has roles/compute.osAdminLogin or hig
 🛠️ Optional: Service Account Permissions
 If the VM uses a custom service account, ensure it has these roles too:
 
-roles/logging.logWriter
+    roles/logging.logWriter
 
-roles/monitoring.metricWriter
+    roles/monitoring.metricWriter
 
 These are required for the Ops Agent to send logs and metrics to Cloud Monitoring and Logging.
 
