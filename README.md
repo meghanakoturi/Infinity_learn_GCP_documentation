@@ -179,6 +179,7 @@ Enables outbound internet access for resources without public IPs.
 
 # 🔐 VPC Network Configuration – Infinity Learn
 1. Organizational VPC Structure
+   
 In Infinity Learn’s GCP Organization, a structured and centralized VPC setup is used for network management and environment isolation. The base folder is:
 
 - fld-il-network/
@@ -193,6 +194,7 @@ Each of these projects contains a shared VPC network and associated subnets.
 ![image](https://github.com/user-attachments/assets/7cd4741d-2adb-414f-8b5f-96c51d532376)
 
 2. Shared VPC Configuration
+   
 You can view and manage Shared VPCs under:
 GCP Console → VPC Network → Shared VPC
 Each environment-specific project is attached to the corresponding shared VPC host project, ensuring that all networking resources (like subnets and firewalls) are centrally managed.
