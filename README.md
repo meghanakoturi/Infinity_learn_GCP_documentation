@@ -401,8 +401,6 @@ In the Security section:
 
 Attach a custom service account with the least-privileged roles needed by the instance.
 
-Example: gce-instance-sa@yourproject.iam.gserviceaccount.com
-
 Enable or disable API access scopes as per your app’s requirement (e.g., Storage Read, Pub/Sub Publisher).
 
 - ✅ Final Steps:
