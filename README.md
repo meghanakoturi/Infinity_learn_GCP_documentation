@@ -488,6 +488,80 @@ If the VM uses a custom service account, ensure it has these roles too:
 
 These are required for the Ops Agent to send logs and metrics to Cloud Monitoring and Logging.
 
+# Volume Increase (Persistent Disk Resize)
+
+Persistent disks in GCP are resizable, but resizing the boot disk has specific steps and scenarios.
+
+1 Standard Boot Disk Resize (Sufficient Free Space)
+
+If there is available space and the VM is responsive:
+
+1.1 Go to Compute Engine > Disks
+
+1.2 Click on the boot disk (usually named like instance-name or instance-name-boot).
+
+1.3 Click Edit > Resize, and increase the size (e.g., from 10 GB to 20 GB).
+
+1.4 Save the changes.
+
+🛠️ Resize the File System
+
+SSH into the VM and run:
+            
+    sudo resize2fs /dev/sda1
+
+ Note: Device name (/dev/sda1) might differ based on image. Use lsblk or df -h to confirm.
+
+ 2 When Boot Disk is Full (Can't SSH or Resize Internally)
+ 
+If the boot disk is full and the VM cannot even run the resize2fs command:
+
+🚫 SSH fails or file system is too full to resize
+
+Workaround: Resize by Detaching and Attaching to Another VM
+
+2.1 Stop the affected instance.
+
+2.2 Go to Compute Engine > Disks
+
+- Select the boot disk of the affected VM
+
+- Click Detach
+
+2.3 Attach this disk to a helper VM:
+
+- Go to the helper VM > Edit
+
+- Attach the disk as a secondary disk
+
+2.4 SSH into the helper VM
+
+2.5 Mount the attached disk
+
+    sudo mkdir /mnt/recovery
+    sudo mount /dev/sdb1 /mnt/recovery 
+Delete unnecessary files to free up space.    
+
+2.6 Unmount and detach the disk from the helper VM.
+
+2.7 Reattach the disk to the original instance as the boot disk.
+
+2.8 Start the original instance.
+
+2.9 Once booted, run:
+         
+    sudo resize2fs /dev/sda1
+
+📌 Tips
+
+Always take snapshots before resizing or modifying disks.
+
+Check your disk quota in the region before increasing size.
+
+Use Cloud Monitoring alerts to notify before disk reaches critical usage (e.g., > 90%).
+
+
+
 
 
 
