@@ -195,11 +195,6 @@ Each of these projects contains a shared VPC network and associated subnets.
 2. Shared VPC Configuration
 You can view and manage Shared VPCs under:
 GCP Console → VPC Network → Shared VPC
-
-Host Project                	Shared VPC Name	               Attached Projects
-prj-il-net-preprod-shared	   sharedvpcpreprod	     prj-il-community-dev, prj-il-loadtest-account, etc.
-prj-il-net-prod-shared	      sharedvpcprod	       prj-il-community-prod, prj-il-learn-prod, etc.
-
 Each environment-specific project is attached to the corresponding shared VPC host project, ensuring that all networking resources (like subnets and firewalls) are centrally managed.
 ![image](https://github.com/user-attachments/assets/41362883-76b0-4df9-bd95-77d3764d3ee3)
 
