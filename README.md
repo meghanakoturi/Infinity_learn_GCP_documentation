@@ -344,6 +344,9 @@ Tag your VPC resources clearly for visibility and auditing.
 # Instance Launch – Detailed
 To launch a VM instance in Google Cloud:
 
+![image](https://github.com/user-attachments/assets/f3fdd869-5ada-44da-8b0e-2236643acaa9)
+
+
 ➤ Step-by-Step Instructions:
 1. Go to Compute Engine > VM instances.
 
