@@ -200,6 +200,102 @@ GCP Console → VPC Network → Shared VPC
 Each environment-specific project is attached to the corresponding shared VPC host project, ensuring that all networking resources (like subnets and firewalls) are centrally managed.
 ![image](https://github.com/user-attachments/assets/41362883-76b0-4df9-bd95-77d3764d3ee3)
 
+3. Subnet Utilization
+Each Shared VPC has region-specific subnets that are reused across different projects:
+
+- Subnets are predefined under each VPC.
+
+- These subnets are assigned non-overlapping CIDR blocks.
+
+- Environments (Dev, QA, Stage, Prod) pick subnets based on region and team-specific allocations.
+
+4. Benefits of This Setup
+✅ Centralized Network Management: VPC rules and subnets are centrally defined under host projects.
+✅ Environment Isolation: Dev, staging, and prod environments are isolated using different VPC host projects.
+✅ Security & Compliance: Firewall rules and IAM policies are managed at the shared VPC level for consistency.
+✅ Scalability: New projects can be added to the shared VPCs easily without changing core network configurations.
+
+# 🌐 VPC Setup 
+In Infinity Learn's GCP organization, we follow a structured approach to network setup using Shared VPCs. If you want to create a new VPC in your organization, follow the steps below.
+
+1 🛠️ Creating a New VPC in Infinity Learn
+1.1 To create a new VPC in our GCP organization (infinitylearn.com):
+
+Go to the GCP Console:
+Navigate to the GCP console and select the appropriate host project under the Infinity Learn organization. For example:
+
+- fldr-il-network
+
+- fldr-il-net-preprod-shared
+
+- fldr-il-net-prod-shared
+
+1.2 Select the Correct Host Project:
+If you're setting up a VPC for dev/staging, choose fldr-il-net-preprod-shared.
+For production environments, use fldr-il-net-prod-shared.
+
+1.3 Navigate to VPC Networks:
+Go to VPC Network > VPC networks, then click "Create VPC network".
+
+1.4 Choose Custom Mode:
+
+Select Custom Mode (recommended) to manually define subnets.
+
+Provide a meaningful name for the network.
+
+1.5 Add Subnets:
+
+Add required subnets for each region you plan to deploy resources in.
+
+Example:
+
+Name: subnet-dev-use1
+
+Region: us-east1
+
+CIDR: 10.1.0.0/24
+
+1.6 Enable Routing Options:
+
+Choose Global dynamic routing if using hybrid connectivity.
+
+Otherwise, keep the default regional routing.
+
+1.7 Private Google Access:
+For subnets that require access to Google APIs (e.g., Cloud Storage, Pub/Sub) without public IPs, enable Private Google Access for the subnet.
+
+# 👥 Grant Access to Subnet Users
+🔐 Note: In GCP, users do not get access to subnets directly. Instead, permissions must be granted via IAM roles in the host project or folder where the VPC resides. This ensures only authorized principals can create/attach resources like VMs to the subnet.
+To allow developers or service accounts to use the new subnets:
+
+- Go to IAM & Admin > IAM in the host project where the VPC is created.
+
+- Assign the role Compute Network User (roles/compute.networkUser) on the subnet or VPC network.
+
+This lets users attach VMs and other resources to the subnet.
+
+🔐 Tip: Always assign access at the least privilege level – only to the required project or subnet, not at the org level.
+
+# 🔥 Configure Firewall Rules
+Navigate to VPC Network > Firewall.
+
+Add firewall rules based on your app's needs:
+
+Allow SSH (port 22) for admins
+
+Allow HTTP (port 80) and HTTPS (port 443)
+
+Allow DB access ports (e.g., 3306 for MySQL) only from trusted IP ranges or service accounts
+
+# ✅ Final Checks
+Ensure route propagation is set correctly (especially for hybrid setups or VPN).
+
+Confirm the subnet permissions are assigned to the right user groups or service accounts.
+
+Tag your VPC resources clearly for visibility and auditing.
+
+
+
 
 
 
