@@ -560,6 +560,24 @@ Check your disk quota in the region before increasing size.
 
 Use Cloud Monitoring alerts to notify before disk reaches critical usage (e.g., > 90%).
 
+# Image Creation
+
+To create an image (for backups or replication):
+
+1. Go to Compute Engine > Images.
+
+2. Click "Create Image".
+
+3. Choose:
+
+3.1 Source disk: Select the running instance's disk.
+
+3.2 Name: e.g., il-base-image
+
+3.3 Click Create.
+
+✅ Use this image later to launch preconfigured instances.
+
 
 
 
