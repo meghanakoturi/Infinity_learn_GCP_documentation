@@ -411,6 +411,77 @@ Review all configurations.
 
 Click "Create" to launch the VM.
 
+- Use Serial Console Access
+If SSH is totally broken, try Serial Console (requires enabling first):
+
+Go to VM Instance > Edit
+
+Enable "Enable serial port access"
+
+Save, then click on "Connect to serial console"
+
+# Monitoring
+- Use Cloud Monitoring to track performance and uptime:
+
+Go to Monitoring > Dashboards.
+
+Use the VM Instance dashboard to monitor:
+
+CPU usage
+
+Memory usage
+
+Disk I/O
+
+Network traffic
+
+Enable uptime checks and alerting policies (e.g., notify if CPU > 80% for 5 mins).
+
+Integrate with Cloud Logging for deep log visibility.
+
+- To install the Ops Agent later through the Observability (Monitoring) tab or manually via SSH, the user or service account performing the installation must have sufficient IAM roles/permissions on the VM.
+
+✅ Required Permissions to Install Ops Agent
+🔒 Minimum IAM Role (Preferred)
+Role: roles/compute.osAdminLogin
+Name: Compute OS Admin Login
+Purpose: Allows SSH access with admin rights (required for agent installation)
+
+This role includes:
+
+compute.instances.get
+
+compute.instances.setMetadata
+
+compute.instances.osLogin
+
+compute.instances.osLogin.admin
+
+✅ Alternative Combination of Roles (if granular control is needed)
+If you prefer fine-grained control, assign the following roles:
+
+roles/compute.instanceAdmin.v1 – to manage VM instances
+
+roles/compute.osLoginAdmin – to allow sudo access
+
+roles/logging.admin – for log writing
+
+roles/monitoring.admin – for monitoring configuration
+
+📌 Note:
+To install the agent via the Cloud Console (Observability tab), the underlying API calls require compute.instances.updateMetadata permission, which is included in the roles above.
+
+If you are using OS Login, ensure the user has roles/compute.osAdminLogin or higher.
+
+🛠️ Optional: Service Account Permissions
+If the VM uses a custom service account, ensure it has these roles too:
+
+roles/logging.logWriter
+
+roles/monitoring.metricWriter
+
+These are required for the Ops Agent to send logs and metrics to Cloud Monitoring and Logging.
+
 
 
 
