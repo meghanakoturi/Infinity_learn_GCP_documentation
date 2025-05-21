@@ -219,6 +219,7 @@ Each Shared VPC has region-specific subnets that are reused across different pro
 In Infinity Learn's GCP organization, we follow a structured approach to network setup using Shared VPCs. If you want to create a new VPC in your organization, follow the steps below.
 
 1 🛠️ Creating a New VPC in Infinity Learn
+
 1.1 To create a new VPC in our GCP organization (infinitylearn.com):
 
 Go to the GCP Console:
@@ -277,15 +278,61 @@ This lets users attach VMs and other resources to the subnet.
 🔐 Tip: Always assign access at the least privilege level – only to the required project or subnet, not at the org level.
 
 # 🔥 Configure Firewall Rules
-Navigate to VPC Network > Firewall.
+1. Navigate to VPC Network > Firewall
 
-Add firewall rules based on your app's needs:
+2. Click Create Firewall Rule
 
-Allow SSH (port 22) for admins
+3. Configure the settings:
 
-Allow HTTP (port 80) and HTTPS (port 443)
+✅ Required Fields:
+- Name: e.g., allow-ssh-http-https
 
-Allow DB access ports (e.g., 3306 for MySQL) only from trusted IP ranges or service accounts
+- Network: Select the newly created VPC (e.g., il-custom-vpc-prod)
+
+- Priority: Default 1000 (lower number = higher priority)
+
+- Direction of Traffic:
+
+- Ingress: For incoming traffic
+
+- Action on Match: Allow
+
+- Target–Choose who this rule should apply to:
+
+      - All instances in the network: Applies to every VM in the VPC.
+
+      - Specified target tags: Applies only to VMs with a specific network tag.
+
+🔸 If you choose this, you must:
+
+- Create a custom network tag (e.g., web-access).
+
+- Attach that tag to the VM that should receive traffic.
+
+      - Go to VM > Edit > Network Tags and enter web-access.
+
+- Specified service accounts: Applies to instances using a particular service account.
+
+- Source Filter (for Ingress):
+
+IP Ranges like 0.0.0.0/0 (all IPs) or restrict (e.g., 192.168.1.0/24)
+
+Optional: Apply based on source tags or service accounts
+
+- Protocols and Ports:
+
+tcp:22 for SSH
+
+tcp:80 for HTTP
+
+tcp:443 for HTTPS
+
+Use all for all traffic if needed
+
+🛠 Optional Fields:
+Description: e.g., “Allow web + SSH access to tagged instances”
+
+Log Config: Enable if traffic logging is required for monitoring/auditing
 
 # ✅ Final Checks
 Ensure route propagation is set correctly (especially for hybrid setups or VPN).
@@ -293,6 +340,8 @@ Ensure route propagation is set correctly (especially for hybrid setups or VPN).
 Confirm the subnet permissions are assigned to the right user groups or service accounts.
 
 Tag your VPC resources clearly for visibility and auditing.
+
+
 
 
 
