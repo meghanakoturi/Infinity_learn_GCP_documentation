@@ -156,6 +156,57 @@ Step 4: Use the Service Account
 
 3. The service account will now perform actions according to the assigned permissions.
 
+# Virtual Private Cloud (VPC)
+A Virtual Private Cloud (VPC) is a logically isolated network within Google Cloud Platform (GCP) where you can launch and manage your resources such as Compute Engine instances, Kubernetes clusters, and more.
+
+For Infinity Learn, the VPC provides a secure and flexible network environment to connect cloud resources privately and control traffic flows.
+
+- Key Concepts of VPC
+1. Subnetworks (Subnets):
+Logical subdivisions within a VPC, each in a specific region. Subnets contain IP address ranges (CIDR blocks) for resources.
+
+2. Routes:
+Rules that define how packets travel within and outside the VPC.
+
+3. Firewalls:
+Control incoming and outgoing traffic to resources based on rules.
+
+4. Peering:
+Allows communication between VPCs privately without going over the internet.
+
+5. Cloud NAT:
+Enables outbound internet access for resources without public IPs.
+
+# 🔐 VPC Network Configuration – Infinity Learn
+1. Organizational VPC Structure
+In Infinity Learn’s GCP Organization, a structured and centralized VPC setup is used for network management and environment isolation. The base folder is:
+
+- fld-il-network/
+
+Under this folder, we maintain two shared VPC host projects:
+
+- fld-il-net-preprod-shared – Used for development and staging environments
+
+- fld-il-net-prod-shared – Used for production environment
+
+Each of these projects contains a shared VPC network and associated subnets.
+![image](https://github.com/user-attachments/assets/7cd4741d-2adb-414f-8b5f-96c51d532376)
+
+2. Shared VPC Configuration
+You can view and manage Shared VPCs under:
+GCP Console → VPC Network → Shared VPC
+
+Host Project                	Shared VPC Name	               Attached Projects
+prj-il-net-preprod-shared	   sharedvpcpreprod	     prj-il-community-dev, prj-il-loadtest-account, etc.
+prj-il-net-prod-shared	      sharedvpcprod	       prj-il-community-prod, prj-il-learn-prod, etc.
+
+Each environment-specific project is attached to the corresponding shared VPC host project, ensuring that all networking resources (like subnets and firewalls) are centrally managed.
+![image](https://github.com/user-attachments/assets/41362883-76b0-4df9-bd95-77d3764d3ee3)
+
+
+
+
+
 
 
 
