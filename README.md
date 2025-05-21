@@ -60,7 +60,7 @@ One of the key benefits of this structure is policy inheritance. IAM roles, orga
 
 # User Access
 - How to Grant Ownership Access in Infinity Learn GCP
-1. Granting Ownership at the Organization Level
+# 1. Granting Ownership at the Organization Level
 To give a user Ownership access across the entire Infinity Learn organization, follow these steps:
 
 1. Log in to the Google Cloud Console.
@@ -79,7 +79,7 @@ To give a user Ownership access across the entire Infinity Learn organization, f
 
 This grants the user full administrative rights over all projects and resources under the Infinity Learn organization.
 
-2. Granting Ownership at the Project Level
+# 2. Granting Ownership at the Project Level
 To give a user ownership only on a specific project within Infinity Learn:
 
 1. Log in to the Google Cloud Console.
