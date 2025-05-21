@@ -442,9 +442,13 @@ Integrate with Cloud Logging for deep log visibility.
 - To install the Ops Agent later through the Observability (Monitoring) tab or manually via SSH, the user or service account performing the installation must have sufficient IAM roles/permissions on the VM.
 
 ✅ Required Permissions to Install Ops Agent
+
 🔒 Minimum IAM Role (Preferred)
+
 Role: roles/compute.osAdminLogin
+
 Name: Compute OS Admin Login
+
 Purpose: Allows SSH access with admin rights (required for agent installation)
 
 This role includes:
