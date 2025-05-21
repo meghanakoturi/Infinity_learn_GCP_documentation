@@ -321,11 +321,11 @@ Optional: Apply based on source tags or service accounts
 
 - Protocols and Ports:
 
-tcp:22 for SSH
+     tcp:22 for SSH
 
-tcp:80 for HTTP
+     tcp:80 for HTTP
 
-tcp:443 for HTTPS
+     tcp:443 for HTTPS
 
 Use all for all traffic if needed
 
