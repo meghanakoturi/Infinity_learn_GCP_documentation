@@ -250,11 +250,7 @@ Add required subnets for each region you plan to deploy resources in.
 
 Example:
 
-Name: subnet-dev-use1
-
-Region: us-east1
-
-CIDR: 10.1.0.0/24
+Name: subnet-dev-use1, Region: us-east1, CIDR: 10.1.0.0/24
 
 1.6 Enable Routing Options:
 
@@ -319,13 +315,7 @@ IP Ranges like 0.0.0.0/0 (all IPs) or restrict (e.g., 192.168.1.0/24)
 
 Optional: Apply based on source tags or service accounts
 
-- Protocols and Ports:
-
-     tcp:22 for SSH
-
-     tcp:80 for HTTP
-
-     tcp:443 for HTTPS
+- Protocols and Ports: tcp:22 for SSH, tcp:80 for HTTP,  tcp:443 for HTTPS
 
 Use all for all traffic if needed
 
@@ -425,15 +415,7 @@ Save, then click on "Connect to serial console"
 
 Go to Monitoring > Dashboards.
 
-Use the VM Instance dashboard to monitor:
-
-CPU usage
-
-Memory usage
-
-Disk I/O
-
-Network traffic
+Use the VM Instance dashboard to monitor: CPU usage, Memory usage, Disk I/O, Network traffic
 
 Enable uptime checks and alerting policies (e.g., notify if CPU > 80% for 5 mins).
 
@@ -602,15 +584,11 @@ Boot Disk: 10 GB
 
 Backups: Disabled
 
-Network Interface:
-
-Select “Network shared with me”
+Network Interface: Select “Network shared with me”
 
 No external IP address
 
-Network Tags:
-
-Add a tag (e.g., web-server) — used in firewall rule targeting
+Network Tags: Add a tag (e.g., web-server) — used in firewall rule targeting
 
 Click Create
 
@@ -624,9 +602,7 @@ Target tags: web-server (same as instance tag)
 
 Source IP ranges: 0.0.0.0/0
 
-Protocols & ports:
-
-Check Specified protocols and ports
+Protocols & ports: Check Specified protocols and ports
 
 Enable TCP: 80
 
@@ -725,9 +701,9 @@ VM instances:
 
 Add existing instance: srewebsite
 
-Port mapping:
+Port mapping: 
 
-  For web applications:Named port: web,Port number: 80
+For web applications:Named port: web,Port number: 80
 
 (If multiple apps run on different ports, add multiple named ports here)
 
@@ -853,7 +829,7 @@ Confirm all components:
    Click Done, then Create
 
    ❗ Why the Domain Isn't Working After DNS Configuration
-✅ What Was Done:
+   
 You created a Load Balancer with:
 
 A public IP
