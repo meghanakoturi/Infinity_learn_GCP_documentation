@@ -1016,6 +1016,122 @@ You can safely delete this DNS authorization only if:
 - You're not using this domain for any current HTTPS services.
 
 - You've replaced it with a new authorization or certificate.
+
+# Managed Instance Group with Load Balancer
+
+1. Create a VM & Generate Custom Image
+   
+Go to: Compute Engine > VM Instances.
+
+Launch a new VM (e.g., install your app, configure it).
+
+Create an image from that VM:
+
+Go to Disks > click the boot disk.
+
+Click "Create Image".
+
+Name: srewebsite-image
+
+Scope: Regional
+
+Source disk: The boot disk of the app-configured VM.
+
+Click Create.
+
+2. Create Instance Template
+   
+Go to Compute Engine > Instance Templates.
+
+Click Create Instance Template.
+
+Fill details:
+
+Name: template-srewebsite
+
+Region: asia-south1 (Mumbai)
+
+Boot disk: Use the custom image srewebsite-image
+
+Network tag: web (or tag used in your firewall)
+
+Network interfaces:
+
+VPC: Shared VPC
+
+External IP: None
+
+(Optional) Add startup script / metadata if needed.
+
+Click Create.
+
+3. Create Managed Instance Group (MIG)
+   
+Go to Compute Engine > Instance Groups.
+
+Click Create Instance Group.
+
+Choose:
+
+Name: mig-srewebsite
+
+Type: Managed
+
+Location: Single zone or Multi-zone (your choice)
+
+Instance template: template-srewebsite
+
+Configure:
+
+Autoscaling: Enable if required (set min/max instances)
+
+Port mapping: e.g., http = 80
+
+Click Create.
+
+4. Connect MIG to Load Balancer
+   
+If you already have a Load Balancer, edit it and add the MIG. Otherwise, create a new HTTP(S) Load Balancer as previously described.
+
+To edit an existing Load Balancer:
+Go to Network services > Load balancing.
+
+Click on your Load Balancer (srewebsite-alb) and click Edit.
+
+Go to Backend Configuration > Click Add Backend.
+
+Backend Service:
+
+Name: backend-mig-srewebsite
+
+Backend type: Instance Group
+
+Instance Group: Select mig-srewebsite
+
+Port name: http or web (same as exposed by your app)
+
+Protocol: HTTP
+
+Add health check:
+
+Protocol: HTTP
+
+Port: 80
+
+Path: /index.html
+
+Save & update the load balancer.
+
+🎯 Result
+
+Your Managed Instance Group will:
+
+Auto-heal failed VMs.
+
+Scale based on traffic (if enabled).
+
+Be served behind a secure HTTPS Load Balancer, using the certificate you created earlier.
+
     
 
 
