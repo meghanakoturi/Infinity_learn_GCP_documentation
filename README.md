@@ -740,6 +740,10 @@ Click Create
 
 Expose your internal VM-based application (srewebsite) to the internet securely via HTTPS, using a GCP HTTP(S) Load Balancer.
 
+
+![image](https://github.com/user-attachments/assets/1404068b-e5d6-4814-af13-b6dcf71f7c67)
+
+
 🔧 Step-by-Step Setup
 
 1. Navigate to Load Balancer
