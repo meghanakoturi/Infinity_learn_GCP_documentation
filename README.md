@@ -880,6 +880,104 @@ Google can validate ownership of the domain by checking DNS resolution.
 
 Since your current certificate does not include srewebsitetest.infinitylearn.com, Google can’t serve traffic on port 443 for that domain securely — and the Load Balancer will fail SSL negotiation, causing the site to be inaccessible.
 
+✅ Fixing HTTPS with Google-Managed SSL Certificate on GCP for Custom Domain
+
+🌐 Domain: srewebsitetest.devinfinitylearn.in
+
+📌 Load Balancer: srewebsite-alb
+
+📜 Goal: Secure traffic using HTTPS with a valid Google-managed certificate
+
+1️⃣ Create Google-Managed SSL Certificate
+Go to:
+
+  Certificate Manager > Certificates > Create Certificate
+
+   Name: cert-srewebsitetest-devinfinitylearn-in
+
+   Scope: Global
+
+   Type: Google-managed
+
+   Domains: srewebsitetest.devinfinitylearn.in
+
+   👉 Under DNS Authorization, click:
+
+   Create missing DNS authorization
+
+   Copy the:Record Name,Record Data
+
+2️⃣ Add DNS Authorization in AWS Route 53
+
+Go to Route 53 > Hosted Zones
+
+Select devinfinitylearn.in
+
+Add Record:
+
+Type: CNAME
+
+Name: (Paste DNS Record Name)
+
+Value: (Paste DNS Record Data)
+
+TTL: 300 (default)
+
+📌 Wait for certificate status to become "Active" in GCP.
+
+3️⃣ Create Certificate Map (Using Cloud Shell)
+
+
+![image](https://github.com/user-attachments/assets/6a8258b8-d5c6-4b5d-9637-4e71cd9c52ae)
+
+
+    gcloud certificate-manager maps create srewebsite-alb-map
+
+4️⃣ Create Certificate Map Entry
+
+
+![image](https://github.com/user-attachments/assets/01095326-bf81-4389-9990-5cdd21ed29cd)
+
+
+    gcloud certificate-manager maps entries create srewebsite-alb-map-entry1 \
+    --map="srewebsite-alb-map" \
+    --hostname="srewebsitetest.devinfinitylearn.in" \
+    --certificates="cert-srewebsitetest-devinfinitylearn-in"
+
+ 5️⃣ Attach Certificate Map to Load Balancer Target Proxy
+
+
+ ![image](https://github.com/user-attachments/assets/e5ecca25-9c71-468f-a1d3-95bedac17ed6)
+
+
+1. Go to Load Balancer > Load Balancer Components
+
+2. Find the Target HTTPS Proxy used by srewebsite-alb
+
+3. Copy the Proxy name
+
+Then run:
+
+    gcloud compute target-https-proxies update srewebsite-alb-target-proxy \
+    --certificate-map="srewebsite-alb-map" \
+    --global
+
+ 💡 You do not need to specify --certificates again, because the map is now the source of truth.
+
+✅ Final Result
+
+Your domain https://srewebsitetest.devinfinitylearn.in is now:
+
+HTTPS-secured
+
+Served via Google-managed certificate
+
+Behind a global HTTPS Load Balancer
+
+Backed by a VM instance (or instance group)
+
+
+
 
 
 
