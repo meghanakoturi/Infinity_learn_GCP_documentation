@@ -852,6 +852,34 @@ Confirm all components:
 
    Click Done, then Create
 
+   ❗ Why the Domain Isn't Working After DNS Configuration
+✅ What Was Done:
+You created a Load Balancer with:
+
+A public IP
+
+A Google-managed SSL certificate
+
+In Route 53, under your hosted zone for infinitylearn.com:
+
+You added an A record for srewebsitetest.infinitylearn.com pointing to the LB public IP.
+
+❌ Why It Still Fails:
+
+Because the Google-managed SSL certificate (named sretest) was created with a dummy domain (www.example.com), the HTTPS load balancer expects traffic for www.example.com, not for srewebsitetest.infinitylearn.com.
+
+🔒 Google-managed SSL certificates only become active when:
+
+The domain in the certificate (e.g., srewebsitetest.infinitylearn.com) is:
+
+Correctly mapped in DNS (Route 53 A record)
+
+Publicly resolvable
+
+Google can validate ownership of the domain by checking DNS resolution.
+
+Since your current certificate does not include srewebsitetest.infinitylearn.com, Google can’t serve traffic on port 443 for that domain securely — and the Load Balancer will fail SSL negotiation, causing the site to be inaccessible.
+
 
 
 
