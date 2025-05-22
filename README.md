@@ -578,6 +578,282 @@ To create an image (for backups or replication):
 
 ✅ Use this image later to launch preconfigured instances.
 
+# Application Deployment & External Exposure — Infinity Learn
+
+1 Goal
+
+- Deploy a web application (Apache-based) on a GCP VM and expose it to the internet using the domain sretest.devinfinitylearn.in.
+
+1.2 VM Creation
+
+Navigate to: Compute Engine > VM Instances > Create Instance
+
+Configure the VM with the following:
+
+Name: srewebsite
+
+Region: asia-south1 (Mumbai)
+
+Machine Type: e2-small
+
+OS Image: Ubuntu 22.04 LTS
+
+Boot Disk: 10 GB
+
+Backups: Disabled
+
+Network Interface:
+
+Select “Network shared with me”
+
+No external IP address
+
+Network Tags:
+
+Add a tag (e.g., web-server) — used in firewall rule targeting
+
+Click Create
+
+1.3 Firewall Configuration
+
+Go to VPC network > Firewall rules > Create Firewall Rule:
+
+Name: allow-http-web-server
+
+Target tags: web-server (same as instance tag)
+
+Source IP ranges: 0.0.0.0/0
+
+Protocols & ports:
+
+Check Specified protocols and ports
+
+Enable TCP: 80
+
+Click Create
+
+1.4 Application Setup (Apache Web Server)
+
+SSH into the instance (via internal IP or Identity-Aware Proxy).
+
+Run the following commands:
+
+    sudo apt update
+    sudo apt install apache2 -y
+Create a basic index.html
+
+    sudo vim /var/www/html/index.html
+    
+Add the content:
+
+    <h1>Welcome to sretest.devinfinitylearn.in</h1>
+    
+Save and exit.
+
+1.5 Verify Local Application
+
+Run:
+
+    curl localhost
+    
+Expected output:
+
+    <h1>Welcome to sretest.devinfinitylearn.in</h1>
+    
+Check Apache is listening:
+
+    ss -lntp | grep :80
+    
+1.6 Test from Another VM
+
+SSH into another VM (with external IP or access).
+
+Run:
+
+    curl <internal-ip-of-srewebsite-instance>
+    
+Expected output should match the content of index.html.
+
+# Setting up an Unmanaged Instance Group in GCP for a standalone application deployment, based on your current setup using the VM srewebsite.
+
+1. Unmanaged Instance Group for Standalone Application
+   
+1.1 Objective
+
+Deploy and manage the application as a standalone instance (no autoscaling), using an Unmanaged Instance Group to represent the setup — useful for integration with Load Balancers or for logical grouping.
+
+1.2 When to Use Unmanaged Instance Group
+Suitable when you have one or more standalone VMs where:
+
+Manual configuration is handled.
+
+Autoscaling is not required.
+
+You want to logically group VM(s) for monitoring, load balancing, or deployment purposes.
+
+1.3 Pre-requisites
+
+A working VM with the application installed:
+
+srewebsite (Region: Mumbai, Ubuntu 22.04, Apache installed, app hosted on port 80).
+
+Application is accessible internally (via internal IP and port 80).
+
+Firewall rules allow ingress on port 80 to VMs with tag web-server.
+
+1.4 Create Unmanaged Instance Group
+
+Navigate to:
+
+📍 Compute Engine > Instance groups > Create instance group
+
+Step-by-Step Configuration:
+
+Name: abc-srewebsite
+
+Location type: Single zone
+
+Zone: Select the same zone as srewebsite (e.g., asia-south1-b)
+
+Instance template: Not required (for unmanaged groups)
+
+Instance group type: Unmanaged
+
+Network: Select "Network shared with me"
+
+VM instances:
+
+Add existing instance: srewebsite
+
+Port mapping:
+
+  For web applications:Named port: web,Port number: 80
+
+(If multiple apps run on different ports, add multiple named ports here)
+
+Click Create
+
+
+# ✅ GCP Load Balancer Setup for Application Exposure
+
+🌐 Goal:
+
+Expose your internal VM-based application (srewebsite) to the internet securely via HTTPS, using a GCP HTTP(S) Load Balancer.
+
+🔧 Step-by-Step Setup
+
+1. Navigate to Load Balancer
+   
+Go to Network Services > Load Balancing
+
+Click "Create Load Balancer"
+
+Select HTTP(S) Load Balancer (Global)
+
+2. Name the Load Balancer
+   
+Name: srewebsite-alb
+
+4. Frontend Configuration
+   
+Create Frontend
+
+Click Frontend Configuration
+
+Name: srewebsite-alb-front1
+
+Protocol: HTTPS
+
+IP Version: IPv4
+
+Port: 443
+
+Service Tier: Premium (default)
+
+Reserve a Static IP
+
+Click Create IP Address
+
+Name: srewebsite-alb-ip2
+
+Type: Global
+
+Version: IPv4
+
+Create SSL Certificate
+
+Click Create Certificate
+
+Name: sretest
+
+Type: Google-managed certificate
+
+Domains: www.example.com (dummy for now)
+
+This step assigns a public static IP address to your Load Balancer.
+
+4. Backend Configuration
+   
+Choose Backend Service
+
+Click Create Backend Service
+
+Configure Backend Service
+
+Name: backend-srewebsite
+
+Backend Type: Instance Group
+
+Protocol: HTTP
+
+Named Port: web
+
+This should match the port name configured in your instance group.
+
+5. Health Check
+   
+Click Create Health Check
+
+Name: hc-healthcheck
+
+Protocol: HTTP
+
+Port: 80
+
+Request Path: /index.html
+
+Click Save and Create Backend Service
+
+6. URL Map (Routing Rules)
+   
+Define Route
+
+   Hostname: srewebsitetest.infinitylearn.com
+
+Path: / and /*
+
+Backend: backend-srewebsite
+
+7. Review and Finalize
+   
+Confirm all components:
+
+   Frontend: HTTPS with public static IP srewebsite-alb-ip2
+
+   Certificate: sretest (Google-managed)
+
+   Backend: backend-srewebsite linked to your unmanaged instance group
+
+   Health Check: /index.html on port 80
+
+   Click Done, then Create
+
+
+
+
+
+
+
 
 
 
