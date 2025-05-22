@@ -1132,6 +1132,90 @@ Scale based on traffic (if enabled).
 
 Be served behind a secure HTTPS Load Balancer, using the certificate you created earlier.
 
+✅ What is an Instance Scheduler?
+
+An Instance Scheduler is a tool that allows you to automatically start and stop VM instances on a defined schedule, helping you optimize cost and manage resources efficiently—especially useful for development, testing, or non-production workloads.
+
+📌 Why Use Instance Scheduler?
+
+💰 Cost Saving: Stop instances when not in use (e.g., nights/weekends).
+
+⚙️ Automation: No manual intervention needed to start/stop VMs.
+
+🧠 Policy Enforcement: Ensures teams don't leave VMs running 24/7 unnecessarily.
+
+🚀 How Does It Work?
+
+You define:
+
+Which instances to schedule (based on labels or names).
+
+What schedule (e.g., stop at 7 PM, start at 9 AM on weekdays).
+
+Then the scheduler automatically:
+
+Starts the instance at your specified time.
+
+Stops it outside business hours or when idle.
+
+✅ Steps to Create an Instance Schedule in GCP (Console-Based)
+
+🔧 Step 1: Create a New Schedule
+
+1. Go to Compute Engine > Instance Schedules in the GCP Console.
+
+2. Click “Create Schedule”.
+
+3. Fill in the required fields:
+
+- Name: Example – weekday-schedule
+
+- Region: Choose the region where your instances are running (e.g., asia-south1 for Mumbai).
+
+- Start Time: e.g., 09:00 – When instances should be started.
+
+- Stop Time: e.g., 18:00 – When instances should be stopped.
+
+- Initiation Date: Date when the schedule should begin.
+
+- End Date (optional): When the schedule should stop being active.
+
+- Frequency: Choose one of: Daily, Weekdays, Custom days (like Mon, Wed, Fri)
+
+- Click Create.
+
+🔗 Step 2: Attach Instances to the Schedule
+
+After the schedule is created:
+
+1. Go to Compute Engine > VM Instances.
+
+2. Select the VM(s) you want to schedule (e.g., dev-vm, test-vm).
+
+3. Click “Edit”.
+
+4. Scroll to “Instance schedule” section.
+
+5. Under Schedule, choose the schedule you just created (e.g., weekday-schedule).
+
+6. Click Save.
+
+✅ What Happens Now?
+
+- GCP will automatically start and stop the VM(s) at the specified times.
+
+- You don’t need Cloud Functions, Cloud Scheduler, or scripting.
+
+- It’s a native and low-maintenance way to manage schedules.
+
+🧠 Good To Know
+
+- Schedules work only on stopped/started operations, not autoscaling.
+
+- You can apply one schedule to many VMs.
+
+- All schedules are based on the region’s local time.
+
     
 
 
