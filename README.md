@@ -976,6 +976,49 @@ Behind a global HTTPS Load Balancer
 
 Backed by a VM instance (or instance group)
 
+    gcloud certificate-manager dns-authorizations delete dns-authz-aiagentsdev-devinfinitylearn-in
+is used to delete a DNS authorization resource in Google Cloud Certificate Manager.
+
+🔍 What is a DNS Authorization?
+
+When you create a Google-managed SSL certificate for a custom domain, Google needs to verify that you own the domain. This is done using a DNS authorization — essentially a special CNAME record you add to your domain's DNS settings.
+
+The DNS authorization is stored in GCP as a resource, usually named something like:
+            
+    dns-authz-yourdomain-com
+    
+✅ Purpose of This Command
+
+This command removes the DNS authorization named dns-authz-aiagentsdev-devinfinitylearn-in.
+
+You would use this if:
+
+- You no longer need the certificate.
+
+- You're cleaning up unused or failed domain verifications.
+
+- You're reconfiguring the certificate setup and want to start fresh.
+
+⚠️ Caution
+
+Deleting the DNS authorization will:
+
+- Break the verification process for any pending or associated certificates using it.
+
+- Cause the certificate to fail or be revoked if the DNS authorization is still in use.
+
+✅ When it's safe to run
+
+You can safely delete this DNS authorization only if:
+
+- The certificate using it is no longer active.
+
+- You're not using this domain for any current HTTPS services.
+
+- You've replaced it with a new authorization or certificate.
+    
+
+
 
 
 
